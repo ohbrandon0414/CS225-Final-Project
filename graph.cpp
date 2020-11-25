@@ -5,18 +5,17 @@ const int Graph::InvalidWeight = INT_MIN;
 const string Graph:: InvalidLabel = "_CS225INVALIDLABEL";
 const Edge Graph::InvalidEdge = Edge(Graph::InvalidVertex, Graph::InvalidVertex, Graph::InvalidWeight, Graph::InvalidLabel);
 
-Graph::Graph(bool weighted) : weighted(weighted),directed(false),random(Random(0))
+Graph::Graph(bool weighted) : weighted(weighted),directed(false)
 {
 }
 
-Graph::Graph(bool weighted, bool directed) : weighted(weighted),directed(directed),random(Random(0))
+Graph::Graph(bool weighted, bool directed) : weighted(weighted),directed(directed)
 {
 }
 
 Graph::Graph(bool weighted, int numVertices, unsigned long seed)
     :weighted(weighted),
-      directed(false),
-     random(Random(seed)) 
+      directed(false)
 {
     if (numVertices < 2)
     {
@@ -32,7 +31,6 @@ Graph::Graph(bool weighted, int numVertices, unsigned long seed)
     }
 
     // make sure all vertices are connected
-    random.shuffle(vertices);
     Vertex cur = vertices[0];
     for (size_t i = 0; i < vertices.size() - 1; ++i)
     {
@@ -40,8 +38,7 @@ Graph::Graph(bool weighted, int numVertices, unsigned long seed)
         insertEdge(cur, next);
         if (weighted) 
         {
-            int weight = random.nextInt();
-            setEdgeWeight(cur, next, weight);
+            setEdgeWeight(cur, next, 0);
         }
         cur = next;
     }
@@ -50,7 +47,6 @@ Graph::Graph(bool weighted, int numVertices, unsigned long seed)
     //  while still maintaining a little randomness
     int numFailures = 0;
     int idx = 0;
-    random.shuffle(vertices);
     while (numFailures < 2) 
     {
         if (!insertEdge(vertices[idx], vertices[idx + 1])) 
@@ -61,13 +57,11 @@ Graph::Graph(bool weighted, int numVertices, unsigned long seed)
         {
             // if insertEdge() succeeded...
             if (weighted)
-                setEdgeWeight(vertices[idx], vertices[idx + 1],
-                              random.nextInt());
+                setEdgeWeight(vertices[idx], vertices[idx + 1], 0);
             ++idx;
             if (idx >= numVertices - 2) 
             {
                 idx = 0;
-                random.shuffle(vertices);
             }
         }
     }
