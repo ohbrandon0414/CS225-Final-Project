@@ -3,28 +3,32 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
+#include <utility>
+#include <iostream>
+#include <string>
 
-degree::degree(): _g(false, true)
+degree::degree(): _g(true, true)
 {
     
 }
 
 void degree::readFromData()
 {  
-    std::ifstream file("routedata");
+    std::ifstream file("routedata.txt");
     if(!file.is_open()) return;
-    string line, word;
-    std::vector<string> routes;
+    std::string line, word;
+    std::vector<std::string> routes;
     while(file >> line)
     {
         routes.clear();
         std::stringstream ss(line);
-        while(getline(ss, word))
+        while(getline(ss, word, ','))
         {
             routes.push_back(word);
         }
-        std::string source = routes[3];
-        std::string destination = routes[5];
+        std::string source = routes[2];
+        std::string destination = routes[4];
 
         if(!(_g.vertexExists(source)))
         {   
@@ -40,7 +44,7 @@ void degree::readFromData()
             _g.setEdgeWeight(source, destination, 0);
         }
         else{
-            _g.setEdgeWeight(source, destination, getEdgeWeight(source, destination) + 1);
+            _g.setEdgeWeight(source, destination, _g.getEdgeWeight(source, destination) + 1);
         }
 
         if(node_weight.find(source) != node_weight.end())
@@ -59,5 +63,13 @@ void degree::readFromData()
         }
 
     }    
-     
 }
+
+     
+
+    void degree::drawOnMap()
+    {
+        std::vector<std::pair<Vertex, int>> weights(node_weight.begin(), node_weight.end());
+        std::sort(weights.begin(), weights.end(), [](std::pair<Vertex, int>a, std::pair<Vertex, int>b){return a.second > b.second;});
+        int max = weights[0].second;
+    }

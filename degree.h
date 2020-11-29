@@ -13,4 +13,5 @@ class degree
     public:
         degree();
         void readFromData();
-}
+        void drawOnMap();
+};
