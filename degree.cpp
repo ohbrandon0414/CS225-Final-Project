@@ -8,6 +8,15 @@
 #include <iostream>
 #include <string>
 
+#include "color.h"
+#include "circle.h"
+#include "vector2.h"
+#include "cs225/PNG.h"
+
+
+using namespace cs225;
+using cs225::HSLAPixel;
+
 degree::degree(): _g(true, true)
 {
     
@@ -68,8 +77,48 @@ void degree::readFromData()
      
 
     void degree::drawOnMap()
-    {
+    {   
+        PNG map;
+        map.readFromFile("map.png");
+
         std::vector<std::pair<Vertex, int>> weights(node_weight.begin(), node_weight.end());
         std::sort(weights.begin(), weights.end(), [](std::pair<Vertex, int>a, std::pair<Vertex, int>b){return a.second > b.second;});
         int max = weights[0].second;
+        int twothird = (max / 3) * 2;
+        int onethird = max / 3;
+        
+        const HSLAPixel high = color::RED;
+        const HSLAPixel medium = color::GREEN;
+        const HSLAPixel low = color::BLUE;
+
+        int minimum_radius = 3;
+
+        Circle* c;
+        for(auto & i : weights)
+        {
+            std::string airport_name = i.first;
+            int weight = i.second;
+            double latitude = locations[airport_name].first;
+            double longitude = locations[airport_name].second;
+            
+            c = new Circle(Vector2(1908.5 + (longitude * 10.603) , 989 - (latitude * 10.993)),
+            [weight, max, twothird, onethird, high, medium, low](){
+                if(weight <= onethird)
+                {
+                    return low;
+                } else if(weight > onethird && weight <= twothird)
+                {
+                    return medium;
+                }
+                else{
+                    return high;
+                }
+            }, (minimum_radius * 3 * weight) / max);
+            c -> draw(&map);
+            delete(c);
+        }
+
+        //Circle* c = new Circle(Vector2(100, 100), high, 9);
+    
+        map.writeToFile("out.png");
     }
