@@ -79,7 +79,7 @@ void degree::readFromData()
     void degree::readFromAirport()
     {
         std::vector<std::string> data;
-        std::ifstream file("test.txt");
+        std::ifstream file("airports.txt");
         std::string line, word;
 
         //go through the file and check word by word
@@ -95,13 +95,15 @@ void degree::readFromData()
                     data.push_back(word);
                 }
 
-                for(auto x: data)
-                {
-                    cout<< x << "\n";
-                }
+                // for(auto x: data)
+                // {
+                //     cout<< x << "\n";
+                // }
 
                 // get the 3 letter keyword for airport
                 std::string name = data[4];
+
+                cout << data[0] << endl;
 
                 //save lat and long data
                 double latitutde = std::stod(data[6]);
@@ -112,10 +114,10 @@ void degree::readFromData()
                 locations[name] = make_pair(latitutde, longitude);
             }
         }
-
+        
         for(auto x : locations)
         {
-            cout<< x.first << endl;
+            cout << x.first << "\n";
         }
     }
 
