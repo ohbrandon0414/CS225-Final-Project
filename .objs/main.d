@@ -1,7 +1,7 @@
-.objs/main.o: main.cpp degree.h edge.h graph.h
+.objs/main.o: main.cpp bfs.h graph.h edge.h
 
-degree.h:
-
-edge.h:
+bfs.h:
 
 graph.h:
+
+edge.h:

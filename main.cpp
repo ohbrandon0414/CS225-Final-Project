@@ -1,9 +1,7 @@
-#include "degree.h"
+#include "bfs.h"
 
 int main()
 {
-    degree d;
-    d.readFromData();
-    d.drawOnMap();
-    d.readFromAirport();
+    BFS bfs;
+    bfs.printResult();
 }

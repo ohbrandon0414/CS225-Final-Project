@@ -83,6 +83,10 @@ class Edge
         return this->label;
     }
 
+    void setLabel(string label) {
+        this->label = label;
+    }
+
     /**
      * Gets edge weight.
      */
