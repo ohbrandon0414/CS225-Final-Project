@@ -4,7 +4,7 @@
 #include <queue>
 #include <vector>
 #include <iostream>
-#include <bits/stdc++.h> 
+#include <math.h> 
 
 using std::string;
 using std::unordered_map;
