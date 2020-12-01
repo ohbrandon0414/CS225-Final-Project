@@ -30,10 +30,39 @@ LandmarkPath::LandmarkPath(const std::string  & routefile, std::unordered_map<st
     }
 }
 
-void LandmarkPath::getResult(std::string source, std::string landmark, std::string destination) {
+void LandmarkPath::getResult(Graph g, std::string source, std::string landmark, std::string destination) {
     
 }
 
+void LandmarkPath::getShortestPath(Graph g, Vertex start){
+	unordered_map<Vertex, int> dis; //initialize tentative distance value
+	unordered_map<Vertex, Vertex> prev; // initialize a map that maps current node -> its previous node
+	unordered_map<Vertex, bool> visted; 
+	std::queue<std::pair<Vertex, int>> p_q; // initialize the priority queue
+	for (Vertex v: g.getVertices()){
+		dis[v] = INT_MAX;
+		prev[v] = nullptr;
+	}
+	dis[start] = 0;
+	p_q.push(std::pair<Vertex, int>(start, 0));
+	while(!p_q.empty()){
+
+	}
+}
+
+
+
+Vertex getMin(unordered_map<Vertex, int> dis, unordered_map<Vertex, bool> visited){
+	int min_d = INT_MAX;
+	Vertex min_v;
+	for (auto i: dis) {
+		if(!visited.at(i.first) && i.second <= min_d){
+			min_d = i.second;
+			min_v = i.first;
+		}
+	}
+	return min_v;
+}
 
 
 
