@@ -5,13 +5,12 @@ const string BFS::VISITED = "VISITED";
 const string BFS::DISCOVERY = "DISCOVERY";
 const string BFS::CROSS = "CROSS";
 
-
-BFS::BFS() {
+BFS::BFS(string filename) {
     Graph g(false);
-    std::ifstream file("test.txt");
+    std::ifstream file(filename);
     if(!file.is_open()) return;
-    std::string line, word;
-    std::vector<std::string> routes;
+    string line, word;
+    vector<string> routes;
     while(file >> line) {
         routes.clear();
         std::stringstream ss(line);
@@ -70,6 +69,7 @@ void BFS::runBFS(Graph g, Vertex v) {
 }
 
 void BFS::printResult() {
+    
     for (Vertex v : bfs_result) {
         std::cout << v << std::endl;
     }
