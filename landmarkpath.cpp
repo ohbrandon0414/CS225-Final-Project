@@ -37,16 +37,24 @@ void LandmarkPath::getResult(Graph g, std::string source, std::string landmark, 
 void LandmarkPath::getShortestPath(Graph g, Vertex start){
 	unordered_map<Vertex, int> dis; //initialize tentative distance value
 	unordered_map<Vertex, Vertex> prev; // initialize a map that maps current node -> its previous node
-	unordered_map<Vertex, bool> visted; 
-	std::queue<std::pair<Vertex, int>> p_q; // initialize the priority queue
+	unordered_map<Vertex, bool> visited; 
+	priority_queue<pair<Vertex, int>, vector<pair<Vertex, int>>, compare> p_q; // initialize the min distance priority queue
 	for (Vertex v: g.getVertices()){
-		dis[v] = INT_MAX;
+		dis[v] = INFINITY;
 		prev[v] = nullptr;
 	}
 	dis[start] = 0;
-	p_q.push(std::pair<Vertex, int>(start, 0));
+	p_q.push(make_pair(start, 0));
 	while(!p_q.empty()){
-
+		Vertex u = p_q.top().first;
+		p_q.pop();
+		for (Vertex v : g.getAdjacent(u)) {
+			int alt = dis[u] + g.getEdge(u, v).getWeight();
+			if (alt < dis[v]) {
+				dis[v] = alt;
+				prev[v] = u;
+			}
+		}
 	}
 }
 
@@ -65,12 +73,9 @@ Vertex getMin(unordered_map<Vertex, int> dis, unordered_map<Vertex, bool> visite
 }
 
 
-
-
+// https://www.geeksforgeeks.org/program-distance-two-points-earth/
 // C++ program to calculate Distance 
 // Between Two Points on Earth 
-// #include <bits/stdc++.h> 
-using namespace std; 
 
 // Utility function for 
 // converting degrees to radians 

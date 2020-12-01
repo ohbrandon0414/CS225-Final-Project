@@ -4,12 +4,24 @@
 #include <queue>
 #include <vector>
 #include <iostream>
+#include <bits/stdc++.h> 
+
+using std::string;
+using std::unordered_map;
+using std::pair;
+using std::priority_queue;
 
 class LandmarkPath {
     public:
-    LandmarkPath(const std::string  & routefile, std::unordered_map<std::string, std::pair<double, double>> airports);
+    LandmarkPath(const string  & routefile, unordered_map<string, pair<double, double>> airports);
     void getResult(Graph g, Vertex, Vertex landmark, Vertex destination);
     void getShortestPath(Graph g, Vertex start);
+
+    struct compare {
+        bool operator() (const pair<Vertex, int> & a, const pair<Vertex, int> & b) {
+            return a.second > b.second;
+        }
+    };
 
     private:
     long double toRadians(const long double degree);
