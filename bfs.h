@@ -1,9 +1,15 @@
+/**
+ * @file bfs.h
+ * Declaration of the BFS class.
+ */
+
 #pragma once
 
 #include "graph.h"
 #include <queue>
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 using std::queue;
 using std::vector;
@@ -13,19 +19,25 @@ using std::unordered_map;
 class BFS {
     public:
         /**
-         * Takes in a data file name, creates the graph for the data and runs a BFS traversal on it
+         * BFS constructor that takes in a data file name, creates the graph for the data and runs a BFS traversal on it
+         * @param filename name of data file
          */
         BFS(string filename);
 
         /**
-         * Given a graph, runs a BFS traveral on the graph
+         * Runs a BFS traveral on the graph
          */
-        void runBFS(Graph g);
+        void runBFS();
 
         /**
          * Prints list of discovery/cross edges and the ordered list of nodes visited in order
          */
         void printResult();
+
+        /**
+         * Save traversal path and edges to txt files
+         */
+        void saveResult();
 
         const static string UNEXPLORED;
         const static string VISITED;
@@ -33,8 +45,9 @@ class BFS {
         const static string CROSS;
 
     private:
-        void runBFS(Graph g, Vertex v);
+        void runBFS(Vertex v);
         Vertex start_;
+        Graph graph_;
         unordered_map<Vertex, string> vertex_labels;
         vector<Vertex> bfs_result;
 };

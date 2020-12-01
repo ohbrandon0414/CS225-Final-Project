@@ -9,8 +9,6 @@ int main()
     d.readFromData();
     d.drawOnMap();
 
-    std::cout << std::endl;
-
-    BFS bfs("test.txt");
-    bfs.printResult();
+    BFS bfs("routedata.txt");
+    bfs.saveResult();
 }
