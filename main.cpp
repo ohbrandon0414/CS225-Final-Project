@@ -6,4 +6,5 @@ int main()
     d.readFromData();
     d.drawOnMap();
     d.readFromAirport();
+    
 }
