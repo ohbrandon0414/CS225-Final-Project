@@ -68,7 +68,7 @@ void LandmarkPath::getShortestPath(Vertex start, Vertex target) {
 }
 
 void LandmarkPath::printPath() {
-	std::cout << shortest_path.size() << std::endl;
+	std::cout << "Layovers: " << shortest_path.size() - 2 << std::endl;
 	for (int i = shortest_path.size() - 1; i >= 0; i--) {
 		std::cout << shortest_path[i] << std::endl;
 	}
