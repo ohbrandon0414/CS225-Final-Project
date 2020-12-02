@@ -11,6 +11,7 @@
 #include "color.h"
 #include "circle.h"
 #include "vector2.h"
+#include "cs225/HSLAPixel.h"
 #include "cs225/PNG.h"
 
 
@@ -91,7 +92,7 @@ void degree::readFromData()
         const HSLAPixel medium = color::GREEN;
         const HSLAPixel low = color::BLUE;
 
-        int minimum_radius = 3;
+        int minimum_radius = 4;
 
         Circle* c;
         for(auto & i : weights)
@@ -100,20 +101,23 @@ void degree::readFromData()
             int weight = i.second;
             double latitude = locations[airport_name].first;
             double longitude = locations[airport_name].second;
-            
-            c = new Circle(Vector2(1908.5 + (longitude * 10.603) , 989 - (latitude * 10.993)),
-            [weight, max, twothird, onethird, high, medium, low](){
-                if(weight <= onethird)
-                {
-                    return low;
-                } else if(weight > onethird && weight <= twothird)
-                {
-                    return medium;
-                }
-                else{
-                    return high;
-                }
-            }, (minimum_radius * 3 * weight) / max);
+            HSLAPixel used;
+            if(weight <= onethird)
+            {
+                used = low;
+            } else if(weight > onethird && weight <= twothird)
+            {
+                used = medium;
+            }
+            else{
+                used = high;
+            }
+            // int radius = (minimum_radius * 3 * weight) / max;
+            // if(radius < 6)
+            // {
+            //     radius = 6;
+            // }
+            c = new Circle(Vector2(1908.5 + (longitude * 10.603) , 989 - (latitude * 10.993)), used,(minimum_radius * 3 * weight) / max);
             c -> draw(&map);
             delete(c);
         }
@@ -121,4 +125,37 @@ void degree::readFromData()
         //Circle* c = new Circle(Vector2(100, 100), high, 9);
     
         map.writeToFile("out.png");
+    }
+
+    void degree::readFromAirport()
+    {
+        std::vector<std::string> data;
+        std::ifstream file("airports.txt");
+        std::string line, word;
+
+        //go through the file and check word by word
+        if(file.is_open())
+        {
+            while(file >> line)
+            {
+                data.clear();
+                std::stringstream ss(line);
+
+                while(getline(ss, word ,','))
+                {
+                    data.push_back(word);
+                }
+
+                // get the 3 letter keyword for airport
+                std::string name = data[4];
+                
+                //save lat and long data
+                double latitutde = std::stod(data[6]);
+                double longitude = std::stod(data[7]);
+                
+
+                //insert into the unordered map
+                locations[name] = make_pair(latitutde, longitude);
+            }
+        }
     }
