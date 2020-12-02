@@ -1,31 +1,30 @@
 #include "landmarkpath.h"
 
-LandmarkPath::LandmarkPath(const std::string  & routefile, std::unordered_map<std::string, std::pair<double, double>> airports){
-    Graph g(true);
+LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std::string, std::pair<double, double>> airports) : g_(true) {
     std::ifstream file(routefile);
-    if(!file.is_open()) return;
+    if (!file.is_open()) return;
     string line, word;
     vector<string> routes;
-    while(file >> line) {
+    while (file >> line) {
         routes.clear();
         std::stringstream ss(line);
-        while(getline(ss, word, ',')) {
+        while (getline(ss, word, ',')) {
             routes.push_back(word);
         }
-        std::string source = routes[2];
-        std::string destination = routes[4];
+        string source = routes[2];
+        string destination = routes[4];
 
-        if(!(g.vertexExists(source))) {   
-            g.insertVertex(source);
+        if (!(g_.vertexExists(source))) {   
+            g_.insertVertex(source);
         }
-        if(!(g.vertexExists(destination))) {   
-            g.insertVertex(destination);
+        if (!(g_.vertexExists(destination))) {   
+            g_.insertVertex(destination);
         }
         int weight = LandmarkPath::distance(airports.at(source).first, airports.at(source).second,
                     airports.at(destination).first,airports.at(destination).second);
-        if(!(g.edgeExists(source, destination))) {   
-            g.insertEdge(source, destination);
-            g.setEdgeWeight(source, destination, weight);
+        if (!(g_.edgeExists(source, destination))) {   
+            g_.insertEdge(source, destination);
+            g_.setEdgeWeight(source, destination, weight);
         }
     }
 }
@@ -34,31 +33,46 @@ void LandmarkPath::getResult(Graph g, std::string source, std::string landmark, 
     
 }
 
-void LandmarkPath::getShortestPath(Graph g, Vertex start){
+void LandmarkPath::getShortestPath(Vertex start, Vertex target) {
 	unordered_map<Vertex, int> dis; //initialize tentative distance value
 	unordered_map<Vertex, Vertex> prev; // initialize a map that maps current node -> its previous node
 	unordered_map<Vertex, bool> visited; 
 	priority_queue<pair<Vertex, int>, vector<pair<Vertex, int>>, compare> p_q; // initialize the min distance priority queue
-	for (Vertex v: g.getVertices()){
-		dis[v] = INFINITY;
-		prev[v] = nullptr;
+	for (Vertex v : g_.getVertices()){
+		dis[v] = INT_MAX;
+		prev[v] = "";
 	}
 	dis[start] = 0;
 	p_q.push(make_pair(start, 0));
 	while(!p_q.empty()){
 		Vertex u = p_q.top().first;
 		p_q.pop();
-		for (Vertex v : g.getAdjacent(u)) {
-			int alt = dis[u] + g.getEdge(u, v).getWeight();
+		if (u == target) {
+			if (prev[u] != "" || u == start) {
+				while (u != "") {
+					shortest_path.push_back(u);
+					u = prev[u];
+				}
+			}
+			break;
+		}
+		for (Vertex v : g_.getAdjacent(u)) {
+			int alt = dis[u] + g_.getEdge(u, v).getWeight();
 			if (alt < dis[v]) {
 				dis[v] = alt;
 				prev[v] = u;
+				p_q.push(make_pair(v, alt));
 			}
 		}
 	}
 }
 
-
+void LandmarkPath::printPath() {
+	std::cout << shortest_path.size() << std::endl;
+	for (int i = shortest_path.size() - 1; i >= 0; i--) {
+		std::cout << shortest_path[i] << std::endl;
+	}
+}
 
 Vertex getMin(unordered_map<Vertex, int> dis, unordered_map<Vertex, bool> visited){
 	int min_d = INT_MAX;

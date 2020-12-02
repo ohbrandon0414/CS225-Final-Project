@@ -103,7 +103,7 @@ void degree::readFromData()
                 // get the 3 letter keyword for airport
                 std::string name = data[4];
 
-                cout << data[0] << endl;
+                // cout << data[0] << endl;
 
                 //save lat and long data
                 double latitutde = std::stod(data[6]);
@@ -115,10 +115,10 @@ void degree::readFromData()
             }
         }
         
-        for(auto x : locations)
-        {
-            cout << x.first << "\n";
-        }
+        // for(auto x : locations)
+        // {
+        //     cout << x.first << "\n";
+        // }
     }
     std::unordered_map<std::string, std::pair<double, double>> degree::getLocations(){
         return locations;
