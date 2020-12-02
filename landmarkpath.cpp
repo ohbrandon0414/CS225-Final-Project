@@ -14,26 +14,26 @@ LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std
         string source = routes[2];
         string destination = routes[4];
 
-        if (!(g_.vertexExists(source))) {   
-            g_.insertVertex(source);
-        }
-        if (!(g_.vertexExists(destination))) {   
-            g_.insertVertex(destination);
-        }
-        int weight = LandmarkPath::distance(airports.at(source).first, airports.at(source).second,
-                    airports.at(destination).first,airports.at(destination).second);
-        if (!(g_.edgeExists(source, destination))) {   
-            g_.insertEdge(source, destination);
-            g_.setEdgeWeight(source, destination, weight);
-        }
+		if (airports.find(source) != airports.end() && airports.find(destination) != airports.end()) {
+			if (!(g_.vertexExists(source))) {   
+				g_.insertVertex(source);
+			}
+			if (!(g_.vertexExists(destination))) {   
+				g_.insertVertex(destination);
+			}
+			int weight = LandmarkPath::distance(airports.at(source).first, airports.at(source).second,
+						airports.at(destination).first,airports.at(destination).second);
+			if (!(g_.edgeExists(source, destination))) {   
+				g_.insertEdge(source, destination);
+				g_.setEdgeWeight(source, destination, weight);
+			}
+		}
     }
 }
 
 void LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex destination) {
 	vector<Vertex> shortest_path1 = getShortestPath(source, landmark);
 	vector<Vertex> shortest_path2 = getShortestPath(landmark, destination);
-	printPath(shortest_path1);
-	printPath(shortest_path2);
 	shortest_path2.insert(shortest_path2.end(), shortest_path1.begin() + 1, shortest_path1.end());
 	printPath(shortest_path2);
 }

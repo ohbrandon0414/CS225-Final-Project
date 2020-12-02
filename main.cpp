@@ -9,6 +9,6 @@ int main()
     d.readFromAirport();
     
     std::unordered_map<std::string, std::pair<double, double>> locations = d.getLocations();
-    LandmarkPath lp("test.txt", locations);
+    LandmarkPath lp("routedata.txt", locations);
     lp.getResult("BOS", "CMI", "SAN");
 }

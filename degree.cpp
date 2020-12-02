@@ -79,7 +79,7 @@ void degree::readFromData()
     void degree::readFromAirport()
     {
         std::vector<std::string> data;
-        std::ifstream file("airports.txt");
+        std::ifstream file("airports_full.txt");
         std::string line, word;
 
         //go through the file and check word by word
@@ -89,7 +89,7 @@ void degree::readFromData()
             {
                 data.clear();
                 std::stringstream ss(line);
-
+                
                 while(getline(ss, word ,','))
                 {
                     data.push_back(word);
