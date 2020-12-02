@@ -11,8 +11,11 @@ class degree
         Graph _g;
         std::unordered_map<Vertex, int> node_weight;
         std::unordered_map<std::string, std::pair<double, double>> locations;
+        std::string r_file;
+        std::string a_file;
+
     public:
-        degree();
+        degree(std::string routefile, std::string airportfile);
         void readFromData();
         void drawOnMap();
         void readFromAirport();

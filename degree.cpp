@@ -8,14 +8,15 @@
 #include <iostream>
 #include <string>
 
-degree::degree(): _g(true, true)
+degree::degree(std::string routefile, std::string airportfile)
+    : _g(true, true), r_file(routefile), a_file(airportfile)
 {
     
 }
 
 void degree::readFromData()
 {  
-    std::ifstream file("routedata.txt");
+    std::ifstream file(r_file);
     if(!file.is_open()) return;
     std::string line, word;
     std::vector<std::string> routes;
@@ -61,7 +62,6 @@ void degree::readFromData()
         else{
             node_weight[destination] = 0;
         }
-
     }    
 }
 
@@ -79,7 +79,7 @@ void degree::readFromData()
     void degree::readFromAirport()
     {
         std::vector<std::string> data;
-        std::ifstream file("airports_full.txt");
+        std::ifstream file(a_file);
         std::string line, word;
 
         //go through the file and check word by word
@@ -88,6 +88,7 @@ void degree::readFromData()
             while(file >> line)
             {
                 data.clear();
+
                 std::stringstream ss(line);
                 
                 while(getline(ss, word ,','))

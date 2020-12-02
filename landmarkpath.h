@@ -18,6 +18,7 @@ class LandmarkPath {
     void getResult(Vertex, Vertex landmark, Vertex destination);
     vector<Vertex> getShortestPath(Vertex start, Vertex target);
     void printPath(vector<Vertex> path);
+    Graph getGraph();
 
     struct compare {
         bool operator() (const pair<Vertex, int> & a, const pair<Vertex, int> & b) {

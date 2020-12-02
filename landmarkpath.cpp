@@ -22,7 +22,7 @@ LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std
 				g_.insertVertex(destination);
 			}
 			int weight = LandmarkPath::distance(airports.at(source).first, airports.at(source).second,
-						airports.at(destination).first,airports.at(destination).second);
+						airports.at(destination).first,airports.at(destination).second) * 1000;
 			if (!(g_.edgeExists(source, destination))) {   
 				g_.insertEdge(source, destination);
 				g_.setEdgeWeight(source, destination, weight);
@@ -81,6 +81,9 @@ void LandmarkPath::printPath(vector<Vertex> path) {
 	}
 }
 
+Graph LandmarkPath::getGraph() {
+	return g_;
+}
 
 
 
