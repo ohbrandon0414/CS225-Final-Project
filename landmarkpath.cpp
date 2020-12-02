@@ -29,14 +29,20 @@ LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std
     }
 }
 
-void LandmarkPath::getResult(Graph g, std::string source, std::string landmark, std::string destination) {
-    
+void LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex destination) {
+	vector<Vertex> shortest_path1 = getShortestPath(source, landmark);
+	vector<Vertex> shortest_path2 = getShortestPath(landmark, destination);
+	printPath(shortest_path1);
+	printPath(shortest_path2);
+	shortest_path2.insert(shortest_path2.end(), shortest_path1.begin() + 1, shortest_path1.end());
+	printPath(shortest_path2);
 }
 
-void LandmarkPath::getShortestPath(Vertex start, Vertex target) {
+vector<Vertex> LandmarkPath::getShortestPath(Vertex start, Vertex target) {
 	unordered_map<Vertex, int> dis; //initialize tentative distance value
 	unordered_map<Vertex, Vertex> prev; // initialize a map that maps current node -> its previous node
 	unordered_map<Vertex, bool> visited; 
+	vector<Vertex> s_path;
 	priority_queue<pair<Vertex, int>, vector<pair<Vertex, int>>, compare> p_q; // initialize the min distance priority queue
 	for (Vertex v : g_.getVertices()){
 		dis[v] = INT_MAX;
@@ -50,7 +56,7 @@ void LandmarkPath::getShortestPath(Vertex start, Vertex target) {
 		if (u == target) {
 			if (prev[u] != "" || u == start) {
 				while (u != "") {
-					shortest_path.push_back(u);
+					s_path.push_back(u);
 					u = prev[u];
 				}
 			}
@@ -65,26 +71,17 @@ void LandmarkPath::getShortestPath(Vertex start, Vertex target) {
 			}
 		}
 	}
+	return s_path;
 }
 
-void LandmarkPath::printPath() {
-	std::cout << "Layovers: " << shortest_path.size() - 2 << std::endl;
-	for (int i = shortest_path.size() - 1; i >= 0; i--) {
-		std::cout << shortest_path[i] << std::endl;
+void LandmarkPath::printPath(vector<Vertex> path) {
+	std::cout << "Layovers: " << path.size() - 2 << std::endl;
+	for (int i = path.size() - 1; i >= 0; i--) {
+		std::cout << path[i] << std::endl;
 	}
 }
 
-Vertex getMin(unordered_map<Vertex, int> dis, unordered_map<Vertex, bool> visited){
-	int min_d = INT_MAX;
-	Vertex min_v;
-	for (auto i: dis) {
-		if(!visited.at(i.first) && i.second <= min_d){
-			min_d = i.second;
-			min_v = i.first;
-		}
-	}
-	return min_v;
-}
+
 
 
 // https://www.geeksforgeeks.org/program-distance-two-points-earth/
