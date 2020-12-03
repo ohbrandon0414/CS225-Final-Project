@@ -1,4 +1,4 @@
-  /**
+/**
  * @file circle.cpp
  * Implementation of the Circle class.
  */
@@ -36,6 +36,7 @@ bool Circle::contains(const Vector2& p) const
 {
     const double distance = this->center().distanceTo(p);
     return distance <= this->radius_;
+    
 }
 
 void Circle::drawPoints(PNG* canvas, int x, int y) const

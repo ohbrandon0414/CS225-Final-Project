@@ -8,14 +8,15 @@
 #include <iostream>
 #include <string>
 
-degree::degree(): _g(true, true)
+degree::degree(std::string routefile, std::string airportfile)
+    : _g(true, true), r_file(routefile), a_file(airportfile)
 {
     
 }
 
 void degree::readFromData()
 {  
-    std::ifstream file("routedata.txt");
+    std::ifstream file(r_file);
     if(!file.is_open()) return;
     std::string line, word;
     std::vector<std::string> routes;
@@ -61,63 +62,64 @@ void degree::readFromData()
         else{
             node_weight[destination] = 0;
         }
-
     }    
 }
 
-     
+void degree::drawOnMap()
+{
+    std::vector<std::pair<Vertex, int>> weights(node_weight.begin(), node_weight.end());
+    std::sort(weights.begin(), weights.end(), [](std::pair<Vertex, int>a, std::pair<Vertex, int>b){return a.second > b.second;});
+    int max = weights[0].second;
 
-    void degree::drawOnMap()
+}
+
+void degree::readFromAirport()
+{
+    std::vector<std::string> data;
+    std::ifstream file(a_file);
+    std::string line, word;
+
+    //go through the file and check word by word
+    if(file.is_open())
     {
-        std::vector<std::pair<Vertex, int>> weights(node_weight.begin(), node_weight.end());
-        std::sort(weights.begin(), weights.end(), [](std::pair<Vertex, int>a, std::pair<Vertex, int>b){return a.second > b.second;});
-        int max = weights[0].second;
-
-    }
-
-
-    void degree::readFromAirport()
-    {
-        std::vector<std::string> data;
-        std::ifstream file("airports.txt");
-        std::string line, word;
-
-        //go through the file and check word by word
-        if(file.is_open())
+        while(file >> line)
         {
-            while(file >> line)
+            data.clear();
+
+            std::stringstream ss(line);
+            
+            while(getline(ss, word ,','))
             {
-                data.clear();
-                std::stringstream ss(line);
-
-                while(getline(ss, word ,','))
-                {
-                    data.push_back(word);
-                }
-
-                // for(auto x: data)
-                // {
-                //     cout<< x << "\n";
-                // }
-
-                // get the 3 letter keyword for airport
-                std::string name = data[4];
-
-                cout << data[0] << endl;
-
-                //save lat and long data
-                double latitutde = std::stod(data[6]);
-                double longitude = std::stod(data[7]);
-
-
-                //insert into the unordered map
-                locations[name] = make_pair(latitutde, longitude);
+                data.push_back(word);
             }
-        }
-        
-        for(auto x : locations)
-        {
-            cout << x.first << "\n";
+
+            // for(auto x: data)
+            // {
+            //     cout<< x << "\n";
+            // }
+
+            // get the 3 letter keyword for airport
+            std::string name = data[4];
+
+            // cout << data[0] << endl;
+
+            //save lat and long data
+            double latitutde = std::stod(data[6]);
+            double longitude = std::stod(data[7]);
+
+
+            //insert into the unordered map
+            locations[name] = make_pair(latitutde, longitude);
         }
     }
+    
+    // for(auto x : locations)
+    // {
+    //     cout << x.first << "\n";
+    // }
+}
+
+std::unordered_map<std::string, std::pair<double, double>> degree::getLocations(){
+    return locations;
+}
 
