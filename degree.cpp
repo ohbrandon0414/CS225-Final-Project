@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 
+#include "line.h"
 #include "color.h"
 #include "circle.h"
 #include "vector2.h"
@@ -92,9 +93,33 @@ void degree::readFromData()
         const HSLAPixel medium = color::GREEN;
         const HSLAPixel low = color::BLUE;
 
-        int minimum_radius = 4;
+        int minimum_radius = 3;
 
-        Circle* c;
+        
+        std::vector<Edge> edges = _g.getEdges();
+        for(auto& i : edges)
+        {
+            HSLAPixel used;
+            std::string source = i.source;
+            std::string dest = i.dest;
+            double s_lat = locations[source].first;
+            double s_long = locations[source].second;
+            double d_lat = locations[dest].first;
+            double d_long = locations[dest].second;
+            s_lat = (989 - (s_lat * 10.993)) < 5 ? 5 : 989 - (s_lat * 10.993);
+            s_long = (1908.5 + (s_long * 10.603)) < 5 ? 5 : 1908.5 + (s_long * 10.603);
+            d_lat = (989 - (d_lat * 10.993)) < 5 ? 5 : 989 - (d_lat * 10.993);
+            d_long = (1908.5 + (d_long * 10.603)) < 5 ? 5 : 1908.5 + (d_long * 10.603);
+            if(node_weight[source] > onethird && node_weight[dest] > onethird)
+            {
+                used = color::YELLOW;
+            }
+            else{
+                used = color::GRAY;
+            }
+            Line line(Vector2(s_long, s_lat), Vector2(d_long, d_lat), used);
+            line.draw(&map);
+        }
         for(auto & i : weights)
         {
             std::string airport_name = i.first;
@@ -102,25 +127,31 @@ void degree::readFromData()
             double latitude = locations[airport_name].first;
             double longitude = locations[airport_name].second;
             HSLAPixel used;
+            int radius = minimum_radius;
             if(weight <= onethird)
             {
                 used = low;
             } else if(weight > onethird && weight <= twothird)
             {
                 used = medium;
+                radius +=5;
             }
             else{
                 used = high;
+                radius += 10;
             }
+            latitude = (989 - (latitude * 10.993)) < 5 ? 5 : 989 - (latitude * 10.993);
+            longitude = (1908.5 + (longitude * 10.603)) < 5 ? 5 : 1908.5 + (longitude * 10.603);
             // int radius = (minimum_radius * 3 * weight) / max;
             // if(radius < 6)
             // {
             //     radius = 6;
             // }
-            c = new Circle(Vector2(1908.5 + (longitude * 10.603) , 989 - (latitude * 10.993)), used,(minimum_radius * 3 * weight) / max);
-            c -> draw(&map);
-            delete(c);
+            Circle c(Vector2( longitude, latitude), used, radius);
+            c.draw(&map);
         }
+        
+
 
         //Circle* c = new Circle(Vector2(100, 100), high, 9);
     
