@@ -76,17 +76,17 @@ void BFS::printResult() {
     }
 }
 
-void BFS::saveResult() {
+void BFS::saveResult(string pathfile, string edgefile) {
     std::ofstream path_file;
-    path_file.open("path.txt");
+    path_file.open(pathfile);
     for (Vertex v : bfs_result) {
         path_file << v << "\n";
     }
     path_file.close();
     std::ofstream edges_file;
-    edges_file.open("edges.txt");
+    edges_file.open(edgefile);
     for (Edge e : graph_.getEdges()) {
-        edges_file << e.source + "->" + e.dest + " " + e.getLabel() + "\n";
+        edges_file << e.source + "<-->" + e.dest + " " + e.getLabel() + "\n";
     }
     edges_file.close();
 }

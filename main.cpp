@@ -10,7 +10,7 @@ int main()
     d.readFromAirport();
 
     BFS bfs("routedata.txt");
-    bfs.saveResult();
+    bfs.saveResult("path.txt", "edges.txt");
     
     std::unordered_map<std::string, std::pair<double, double>> locations = d.getLocations();
     LandmarkPath lp("routedata.txt", locations);

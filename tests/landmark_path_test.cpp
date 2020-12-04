@@ -4,11 +4,11 @@
 
 #include <iostream>
 
-TEST_CASE("sanity_check", "[valgrind][weight=1]") {
+TEST_CASE("sanity_check", "[valgrind][weight=1][landmarkpath]") {
     REQUIRE(3==3);
 }
 
-TEST_CASE("small file", "[valgrind][weight=1]") {
+TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
     degree d("tests/small_routedata.txt", "tests/small_airport_data.txt");
     d.readFromAirport();
 

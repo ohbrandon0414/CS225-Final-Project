@@ -37,7 +37,8 @@ class BFS {
         /**
          * Save traversal path and edges to txt files
          */
-        void saveResult();
+        void saveResult(string pathfile, string edgefile);
+
 
         const static string UNEXPLORED;
         const static string VISITED;
