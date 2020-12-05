@@ -6,8 +6,8 @@ int main()
 {
     degree d("routedata.txt", "airports_full.txt");
     d.readFromData();
-    d.drawOnMap();
     d.readFromAirport();
+    d.drawOnMap();
 
     BFS bfs("routedata.txt");
     bfs.saveResult("path.txt", "edges.txt");
