@@ -6,6 +6,7 @@
 #pragma once
 
 #include "graph.h"
+#include "edge.h"
 #include <queue>
 #include <vector>
 #include <iostream>
@@ -27,7 +28,7 @@ class BFS {
         /**
          * Runs a BFS traveral on the graph
          */
-        void runBFS();
+        void runBFS(Vertex start);
 
         /**
          * Prints list of discovery/cross edges and the ordered list of nodes visited in order
@@ -46,9 +47,10 @@ class BFS {
         const static string CROSS;
 
     private:
-        void runBFS(Vertex v);
+        void bfsHelper(Vertex v);
         Vertex start_;
         Graph graph_;
         unordered_map<Vertex, string> vertex_labels;
         vector<Vertex> bfs_result;
+        vector<Edge> edge_result;
 };

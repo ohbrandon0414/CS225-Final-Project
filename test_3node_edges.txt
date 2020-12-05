@@ -1,3 +1,0 @@
-C<-->B DISCOVERY
-C<-->A DISCOVERY
-B<-->A CROSS

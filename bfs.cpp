@@ -15,6 +15,7 @@ BFS::BFS(string filename) : graph_(false) {
     if(!file.is_open()) return;
     string line, word;
     vector<string> routes;
+    Vertex start = "";
     while(file >> line) {
         routes.clear();
         std::stringstream ss(line);
@@ -22,6 +23,7 @@ BFS::BFS(string filename) : graph_(false) {
             routes.push_back(word);
         }
         std::string source = routes[2];
+        if (start == "") start = source;
         std::string destination = routes[4];
 
         if(!(graph_.vertexExists(source))) {   
@@ -35,21 +37,22 @@ BFS::BFS(string filename) : graph_(false) {
             graph_.setEdgeLabel(source, destination, UNEXPLORED);
         }
     }
-    runBFS();
+    runBFS(start);
 }
 
-void BFS::runBFS() {
+void BFS::runBFS(Vertex start) {
     for (Vertex v : graph_.getVertices()) {
         vertex_labels.insert({v, UNEXPLORED});
     }
+    bfsHelper(start);
     for (Vertex v : graph_.getVertices()) {
         if (vertex_labels[v] == UNEXPLORED) {
-            runBFS(v);
+            bfsHelper(v);
         }
     }
 }
 
-void BFS::runBFS(Vertex v) {
+void BFS::bfsHelper(Vertex v) {
     queue<Vertex> q;
     vertex_labels[v] = VISITED;
     q.push(v);
@@ -61,10 +64,12 @@ void BFS::runBFS(Vertex v) {
         for (Vertex w : graph_.getAdjacent(v)) {
             if (vertex_labels[w] == UNEXPLORED) {
                 graph_.setEdgeLabel(v, w, DISCOVERY);
+                edge_result.push_back(graph_.getEdge(v, w));
                 vertex_labels[w] = VISITED;
                 q.push(w);
             } else if (graph_.getEdge(v, w).getLabel() == UNEXPLORED) {
                 graph_.setEdgeLabel(v, w, CROSS);
+                edge_result.push_back(graph_.getEdge(v, w));
             }
         }
     }
@@ -85,8 +90,11 @@ void BFS::saveResult(string pathfile, string edgefile) {
     path_file.close();
     std::ofstream edges_file;
     edges_file.open(edgefile);
-    for (Edge e : graph_.getEdges()) {
+    for (Edge e : edge_result) {
         edges_file << e.source + "<-->" + e.dest + " " + e.getLabel() + "\n";
     }
+    // for (Edge e : graph_.getEdges()) {
+    //     edges_file << e.source + "<-->" + e.dest + " " + e.getLabel() + "\n";
+    // }
     edges_file.close();
 }

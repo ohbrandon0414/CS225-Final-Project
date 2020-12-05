@@ -1,2 +1,6 @@
 .objs
 .vscode
+test_triangle_edges.txt
+test_triangle_path.txt
+test_small_edges.txt
+test_small_path.txt

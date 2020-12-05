@@ -2,59 +2,59 @@
 #include "../degree.h"
 #include "../bfs.h"
 
-#include <algorithm>
 #include <iostream>
-#include <string>
 #include <vector>
 #include <cctype>
 #include <locale>
 
+#include <fstream>
+#include <iterator>
+#include <string>
+#include <algorithm>
+
 using std::ifstream;
 using std::stringstream;
+using std::istreambuf_iterator;
+using std::fstream;
 
-// https://stackoverflow.com/a/217605
-// trim from end (in place)
-static inline void rtrim(std::string &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
-        return !std::isspace(ch);
-    }).base(), s.end());
-}
+void compareFiles(string p1, string p2) {
+    fstream f1, f2;
+    bool flag = true;
+    f1.open(p1,std::ios::in);
+    if(f1.fail())
+        std::cout<<"File can't be opened"<<std::endl;
+    f2.open(p2,std::ios::in);
+    if(f2.fail())
+        std::cout<<"File can't be opened"<<std::endl;
 
-bool tree_equals_output(stringstream & s, string filename)
-{
-    ifstream file(filename);
-    string soln_s;
-    string out_s;
-
-    while(getline(file, soln_s))
-    {
-        if(!getline(s, out_s))
-            return false;
-
-        rtrim(soln_s);
-        rtrim(out_s);
-
-        if(out_s != soln_s)
-            return false;
+    while(1) {
+        int c1 = f1.get();
+        int c2 = f2.get();
+        if (c1 != c2) {
+            flag=false;
+            break;
+        }
+        if ((c1 == EOF) || (c2 == EOF))
+            break;
     }
-    if(getline(s, soln_s))
-        return false;
-
-    return true;
+    f1.close();
+    f2.close();
+    if (flag == false) {
+        FAIL( "Your output in \"" + p1 + "\" does not match our output in \"" + p2 + "\"");
+    }
+    REQUIRE(flag == true);
 }
 
-void compareBinaryFiles( string yourFile, string ourFile ) 
-{
-    ifstream ourBinary( ourFile, std::ios::binary );
-    stringstream ours;
-    ours << ourBinary.rdbuf();
-
-    if(!tree_equals_output(ours, yourFile))
-        FAIL( "Your output in \"" + yourFile + "\" does not match our output in \"" + ourFile + "\"");
+TEST_CASE("Triangle graph", "[bfs]") {
+    BFS bfs("tests/triangle_test.txt");
+    bfs.saveResult("test_triangle_path.txt", "test_triangle_edges.txt");
+    compareFiles("tests/expected_triangle_test_path.txt", "test_triangle_path.txt");
+    compareFiles("tests/expected_triangle_test_edges.txt", "test_triangle_edges.txt");
 }
 
-TEST_CASE("3 node graph", "[bfs]") {
-    BFS bfs("tests/3node_test.txt");
-    bfs.saveResult("test_3node_path.txt", "test_3node_edges.txt");
-    compareBinaryFiles("expected_3node_test_path.txt", "test_3node_path.txt");
+TEST_CASE("Small graph", "[bfs]") {
+    BFS bfs("tests/small_graph_test.txt");
+    bfs.saveResult("test_small_path.txt", "test_small_edges.txt");
+    compareFiles("tests/expected_small_test_path.txt", "test_small_path.txt");
+    compareFiles("tests/expected_small_test_edges.txt", "test_small_edges.txt");
 }
