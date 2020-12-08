@@ -15,7 +15,7 @@ using std::priority_queue;
 class LandmarkPath {
     public:
     LandmarkPath(const string  & routefile, unordered_map<string, pair<double, double>> airports);
-    void getResult(Vertex, Vertex landmark, Vertex destination);
+    vector<Vertex> getResult(Vertex, Vertex landmark, Vertex destination);
     vector<Vertex> getShortestPath(Vertex start, Vertex target);
     void printPath(vector<Vertex> path);
     Graph getGraph();

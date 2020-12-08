@@ -31,11 +31,11 @@ LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std
     }
 }
 
-void LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex destination) {
+vector<Vertex> LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex destination) {
 	vector<Vertex> shortest_path1 = getShortestPath(source, landmark);
 	vector<Vertex> shortest_path2 = getShortestPath(landmark, destination);
 	shortest_path2.insert(shortest_path2.end(), shortest_path1.begin() + 1, shortest_path1.end());
-	printPath(shortest_path2);
+	return shortest_path2;
 }
 
 vector<Vertex> LandmarkPath::getShortestPath(Vertex start, Vertex target) {
