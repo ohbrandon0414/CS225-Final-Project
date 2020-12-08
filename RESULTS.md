@@ -1,2 +1,2 @@
 -Landmark path
-Landmark path was intended to give results of the shortest path from a to b through c. 
+Landmark path was intended to give results of the shortest path from a to b through c. As intended, the landmark path of we implemented takes 3 entries(starting point, landmark, destination). Using the getResult method and printPath method, we were able to print out the IATA codes of all the airports one would have to go through. We were able to discover the similarities of Dijkstra’s Algorithm and the algorithm we had to implement to get the shortest path.

@@ -7,5 +7,16 @@ Began working on creating the classes needed and structure for the graphical out
 **Week 11/23 - 11/29**  
 Continued working on the busiest airport graph and displaying it onto a world map.
 
+
 **Week 11/30 - 12/6**  
-Completed visual representation of the busiest aiport graph using given data. Started working on a BFS traversal of the graph of the flight routes data.
+Completed visual representation of the busiest aiport graph using given data. 
+Started working on a BFS traversal of the graph of the flight routes data.
+Began creating the landmarkpath class that implements landmarkpath
+Implemented methods that are needed in the landmarkpath algorithm.
+
+**Week 12/8 -** 
+Created test cases need for landmarkpath class.
+
+
+
+
