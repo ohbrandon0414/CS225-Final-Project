@@ -20,12 +20,27 @@ TEST_CASE("small file", "[valgrind][weight=1]") {
 
     SECTION("check if graph is right") {
         REQUIRE(!g.getVertices().empty());
-        REQUIRE(g.vertexExists("AER"));
-        REQUIRE(g.edgeExists("CEK", "OVB"));
+        REQUIRE(g.vertexExists("AAA"));
+        REQUIRE(g.edgeExists("AAA", "BBB"));
     }
 
+
     SECTION("test getShortestPath") {
-        
+        std::vector<std::string> expected_result;
+        expected_result.push_back("CCC");
+        expected_result.push_back("BBB");
+        expected_result.push_back("AAA");
+        REQUIRE(lp.getShortestPath("AAA", "CCC") == expected_result);
+    }
+
+    SECTION("test landmarkpath test") {
+        std::vector<std::string> expected_result;
+        expected_result.push_back("FFF");
+        expected_result.push_back("EEE");
+        expected_result.push_back("CCC");
+        expected_result.push_back("BBB");
+        expected_result.push_back("AAA");
+        REQUIRE(lp.getResult("AAA", "CCC" , "FFF") == expected_result);
     }
 }
 

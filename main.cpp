@@ -10,5 +10,5 @@ int main()
     
     std::unordered_map<std::string, std::pair<double, double>> locations = d.getLocations();
     LandmarkPath lp("routedata.txt", locations);
-    lp.getResult("BOS", "SMF", "PVG");
+    lp.printPath(lp.getResult("BOS", "YRI", "PVG"));
 }

@@ -1,6 +1,6 @@
-2965,SochiInternationalAirport,Sochi,Russia,AER,URSS,43.449902,39.9566,89,3,N,Europe/Moscow,airport,OurAirports
-2990,KazanInternationalAirport,Kazan,Russia,KZN,UWKD,55.606201171875,49.278701782227,411,3,N,Europe/Moscow,airport,OurAirports
-2966,AstrakhanAirport,Astrakhan,Russia,ASF,URWA,46.2832984924,48.0063018799,-65,4,N,Europe/Samara,airport,OurAirports
-2962,MineralnyyeVodyAirport,MineralnyeVody,Russia,MRV,URMM,44.225101470947266,43.08190155029297,1054,3,N,Europe/Moscow,airport,OurAirports
-2968,ChelyabinskBalandinoAirport,Chelyabinsk,Russia,CEK,USCC,55.305801,61.5033,769,5,N,Asia/Yekaterinburg,airport,OurAirports
-4078,TolmachevoAirport,Novosibirsk,Russia,OVB,UNNT,55.012599945068,82.650703430176,365,7,N,Asia/Krasnoyarsk,airport,OurAirports
+1,AirportA,A,Russia,AAA,AAAA,30.0,-100.0,3,N,Europe/Moscow,airport,OurAirports
+2,AirportB,B,Russia,BBB,BBBB,30.0,-60.0,3,N,Europe/Moscow,airport,OurAirports
+3,AirportC,C,Russia,CCC,CCCC,30.0,-20.0,3,N,Europe/Moscow,airport,OurAirports
+4,AirportD,D,Russia,DDD,DDDD,30.0,20.0,3,N,Europe/Moscow,airport,OurAirports
+5,AirportE,E,Russia,EEE,EEEE,30.0,60.0,3,N,Europe/Moscow,airport,OurAirports
+6,AirportF,F,Russia,FFF,FFFF,30.0,100.0,3,N,Europe/Moscow,airport,OurAirports
