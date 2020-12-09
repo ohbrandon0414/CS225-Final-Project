@@ -4,11 +4,8 @@
 
 #include <iostream>
 
-TEST_CASE("sanity_check", "[valgrind][weight=1][landmarkpath]") {
-    REQUIRE(3==3);
-}
-
 TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
+    // small data files that contain basic data.
     degree d("tests/small_routedata.txt", "tests/small_airport_data.txt");
     d.readFromAirport();
 
@@ -24,7 +21,6 @@ TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
         REQUIRE(g.edgeExists("AAA", "BBB"));
     }
 
-
     SECTION("test getShortestPath") {
         std::vector<std::string> expected_result;
         expected_result.push_back("CCC");
@@ -33,7 +29,7 @@ TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
         REQUIRE(lp.getShortestPath("AAA", "CCC") == expected_result);
     }
 
-    SECTION("test landmarkpath test") {
+    SECTION("test landmarkpath test - correct") {
         std::vector<std::string> expected_result;
         expected_result.push_back("FFF");
         expected_result.push_back("EEE");

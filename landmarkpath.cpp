@@ -42,13 +42,15 @@ vector<Vertex> LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex de
 	// Combine the shortest path from source to landmark + landmark to destination
 	vector<Vertex> shortest_path1 = getShortestPath(source, landmark);
 	vector<Vertex> shortest_path2 = getShortestPath(landmark, destination);
+	// there was an error when getting the shortest path and one of them become empty
 	if (shortest_path2.empty() || shortest_path1.empty()) {
 		std::cout << "There is no path from "<< BOLDGREEN << source<< RESET <<" through "
 		<< BOLDGREEN<< landmark<< RESET <<" to "<< BOLDGREEN << destination<< RESET << std::endl;
-		
+		//returns an empty vector
 		return vector<Vertex>();
 	}
 	shortest_path2.insert(shortest_path2.end(), shortest_path1.begin() + 1, shortest_path1.end());
+	// prints the airports to go through
 	printPath(shortest_path2,  source,  landmark,  destination);
 	return shortest_path2;
 }
