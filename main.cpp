@@ -38,11 +38,10 @@ int main(int argc, const char** argv) {
     optsparse.parse(argc, argv);
 
     if (opts::help) {
-        cout << "Usage: " << argv[0]
-             << " background_image.png tile_directory/ [number of tiles] "
-                "[pixels per tile] [output_image.png]"
-             << endl;
-        return 0;
+        cout << "Usage: " << argv[0] << endl;
+        cout << "-m/--map: map functionality" << endl;
+        cout << "-b/--bfs: bfs traversal" << endl;
+        cout << "-l/--landmarkpath [source] [landmark] [destination]: landmark path between 3 airports" << endl;
     }
 
     if (opts::map) {
@@ -64,4 +63,6 @@ int main(int argc, const char** argv) {
         LandmarkPath lp("tests/small_routedata.txt", locations);
         lp.getResult(source, landmark, dest);
     }
+    
+    return 0;
 }
