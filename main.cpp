@@ -61,7 +61,7 @@ int main(int argc, const char** argv) {
         degree d("routedata.txt", "airports_full.txt");
         d.readFromAirport();
         std::unordered_map<std::string, std::pair<double, double>> locations = d.getLocations();
-        LandmarkPath lp("routedata.txt", locations);
+        LandmarkPath lp("tests/small_routedata.txt", locations);
         lp.getResult(source, landmark, dest);
     }
 }

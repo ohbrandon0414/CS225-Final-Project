@@ -40,7 +40,7 @@ TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
         expected_result.push_back("CCC");
         expected_result.push_back("BBB");
         expected_result.push_back("AAA");
-        REQUIRE(lp.getResult("AAA", "CCC" , "FFF") == expected_result);
+        REQUIRE(lp.getResult("AAA", "CCC" , "KKK") == expected_result);
     }
 }
 
