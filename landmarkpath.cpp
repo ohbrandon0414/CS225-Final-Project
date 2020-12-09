@@ -1,4 +1,7 @@
 #include "landmarkpath.h"
+#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
+#define RESET   "\033[0m"
+
 
 LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std::string, std::pair<double, double>> airports) : g_(true) {
 	// First opens route file and adds all routes to the graph
@@ -40,7 +43,7 @@ vector<Vertex> LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex de
 	vector<Vertex> shortest_path1 = getShortestPath(source, landmark);
 	vector<Vertex> shortest_path2 = getShortestPath(landmark, destination);
 	shortest_path2.insert(shortest_path2.end(), shortest_path1.begin() + 1, shortest_path1.end());
-	printPath(shortest_path2);
+	printPath(shortest_path2,  source,  landmark,  destination);
 	return shortest_path2;
 }
 
@@ -84,15 +87,22 @@ vector<Vertex> LandmarkPath::getShortestPath(Vertex start, Vertex target) {
 	return s_path;
 }
 
-void LandmarkPath::printPath(vector<Vertex> path) {
+void LandmarkPath::printPath(vector<Vertex> path, Vertex source, Vertex landmark, Vertex dest) {
 	if (path.empty() || path.size() < 3) {
 		std::cout << "There is no path from the source airport through the landmark airport to the destination airport." << std::endl;
 	} else {
-		std::cout << "Layovers: " << path.size() - 2 << std::endl;
+		std::cout << "---------------------------------------------------------------" << std::endl;
+
+		std::cout << "Shortest path from " << source << "-->" << landmark << "-->" << dest << std::endl;
 		for (int i = path.size() - 1; i >= 0; i--) {
-			std::cout << path[i] << std::endl;
+			if (path[i] == source || path[i] == landmark || path[i] == dest) {
+				std::cout << BOLDGREEN;
+			}
+			std::cout << path[i] << RESET << std::endl;		
 		}
 	}
+	std::cout << "---------------------------------------------------------------" << std::endl;
+
 }
 
 Graph LandmarkPath::getGraph() {

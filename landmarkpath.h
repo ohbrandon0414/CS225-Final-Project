@@ -40,7 +40,7 @@ class LandmarkPath {
         /**
          * Prints the path of the landmark path
          */
-        void printPath(vector<Vertex> path);
+        void printPath(vector<Vertex> path, Vertex source, Vertex landmark, Vertex dest);
 
         /**
          * Getter for the graph created for landmark path
