@@ -43,7 +43,9 @@ vector<Vertex> LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex de
 	vector<Vertex> shortest_path1 = getShortestPath(source, landmark);
 	vector<Vertex> shortest_path2 = getShortestPath(landmark, destination);
 	if (shortest_path2.empty() || shortest_path1.empty()) {
-		std::cout << "There is no path from the source airport through the landmark airport to the destination airport." << std::endl;
+		std::cout << "There is no path from "<< BOLDGREEN << source<< RESET <<" through "
+		<< BOLDGREEN<< landmark<< RESET <<" to "<< BOLDGREEN << destination<< RESET << std::endl;
+		
 		return vector<Vertex>();
 	}
 	shortest_path2.insert(shortest_path2.end(), shortest_path1.begin() + 1, shortest_path1.end());
@@ -92,7 +94,7 @@ vector<Vertex> LandmarkPath::getShortestPath(Vertex start, Vertex target) {
 }
 
 void LandmarkPath::printPath(vector<Vertex> path, Vertex source, Vertex landmark, Vertex dest) {
-	std::cout << "---------------------------------------------------------------" << std::endl;
+	std::cout << "-----------------------------------------------------------------------------------" << std::endl;
 	std::cout << "Shortest path from " << source << "-->" << landmark << "-->" << dest << std::endl;
 	for (int i = path.size() - 1; i >= 0; i--) {
 		if (path[i] == source || path[i] == landmark || path[i] == dest) {
@@ -100,8 +102,7 @@ void LandmarkPath::printPath(vector<Vertex> path, Vertex source, Vertex landmark
 		}
 		std::cout << path[i] << RESET << std::endl;		
 	}
-	std::cout << "---------------------------------------------------------------" << std::endl;
-
+	std::cout << "-----------------------------------------------------------------------------------" << std::endl;
 }
 
 Graph LandmarkPath::getGraph() {

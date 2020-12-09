@@ -40,7 +40,24 @@ TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
         expected_result.push_back("CCC");
         expected_result.push_back("BBB");
         expected_result.push_back("AAA");
-        REQUIRE(lp.getResult("AAA", "CCC" , "KKK") == expected_result);
+        REQUIRE(lp.getResult("AAA", "CCC" , "FFF") == expected_result);
+    }
+    SECTION("Airport exists in the route data but does not exist in the airport file") {
+        REQUIRE(lp.getResult("AAA", "CCC", "KKK").empty());
+    }
+    SECTION("Airport does not exist in the route file") {
+        REQUIRE(lp.getResult("AAA", "CCC", "GGG").empty());
+    }
+    SECTION("No route exists") {
+        std::vector<std::string> expected_result;
+        expected_result.push_back("FFF");
+        REQUIRE(lp.getResult("HHH", "III" , "AAA").empty()) ;
+    }
+    SECTION("No landmark") {
+        std::vector<std::string> expected_result;
+        expected_result.push_back("BBB");
+        expected_result.push_back("AAA");
+        REQUIRE(lp.getResult("AAA", "BBB" , "BBB") == expected_result);
     }
 }
 

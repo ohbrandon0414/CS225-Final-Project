@@ -4,3 +4,6 @@
 4,AirportD,D,Russia,DDD,DDDD,30.0,20.0,3,N,Europe/Moscow,airport,OurAirports
 5,AirportE,E,Russia,EEE,EEEE,30.0,60.0,3,N,Europe/Moscow,airport,OurAirports
 6,AirportF,F,Russia,FFF,FFFF,30.0,100.0,3,N,Europe/Moscow,airport,OurAirports
+7,AirportG,G,Russia,GGG,GGGG,30.0,120.0,3,N,Europe/Moscow,airport,OurAirports
+8,AirportH,H,Russia,HHH,HHHH,30.0,140.0,3,N,Europe/Moscow,airport,OurAirports
+9,AirportI,I,Russia,III,IIII,30.0,160.0,3,N,Europe/Moscow,airport,OurAirports
