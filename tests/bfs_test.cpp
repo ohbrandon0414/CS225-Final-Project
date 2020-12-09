@@ -17,6 +17,7 @@ using std::stringstream;
 using std::istreambuf_iterator;
 using std::fstream;
 
+// Reads in 2 testing files in order to compare them
 void compareFiles(string p1, string p2) {
     fstream f1, f2;
     bool flag = true;

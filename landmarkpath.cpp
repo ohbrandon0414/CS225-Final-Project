@@ -1,6 +1,7 @@
 #include "landmarkpath.h"
 
 LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std::string, std::pair<double, double>> airports) : g_(true) {
+	// First opens route file and adds all routes to the graph
     std::ifstream file(routefile);
     if (!file.is_open()) return;
     string line, word;
@@ -14,6 +15,7 @@ LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std
         string source = routes[2];
         string destination = routes[4];
 
+		// Only adds routes if the airports in the route have defined locations	
 		if (airports.find(source) != airports.end() && airports.find(destination) != airports.end()) {
 			if (!(g_.vertexExists(source))) {   
 				g_.insertVertex(source);
@@ -21,6 +23,8 @@ LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std
 			if (!(g_.vertexExists(destination))) {   
 				g_.insertVertex(destination);
 			}
+
+			// Set weight of the edges to be the calculated distance from source airport to destination airport
 			int weight = LandmarkPath::distance(airports.at(source).first, airports.at(source).second,
 						airports.at(destination).first,airports.at(destination).second) * 1000;
 			if (!(g_.edgeExists(source, destination))) {   
@@ -31,23 +35,29 @@ LandmarkPath::LandmarkPath(const std::string & routefile, std::unordered_map<std
     }
 }
 
-void LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex destination) {
+vector<Vertex> LandmarkPath::getResult(Vertex source, Vertex landmark, Vertex destination) {
+	// Combine the shortest path from source to landmark + landmark to destination
 	vector<Vertex> shortest_path1 = getShortestPath(source, landmark);
 	vector<Vertex> shortest_path2 = getShortestPath(landmark, destination);
 	shortest_path2.insert(shortest_path2.end(), shortest_path1.begin() + 1, shortest_path1.end());
 	printPath(shortest_path2);
+	return shortest_path2;
 }
 
 vector<Vertex> LandmarkPath::getShortestPath(Vertex start, Vertex target) {
-	unordered_map<Vertex, int> dis; //initialize tentative distance value
+	unordered_map<Vertex, int> dis; // initialize tentative distance value
 	unordered_map<Vertex, Vertex> prev; // initialize a map that maps current node -> its previous node
 	unordered_map<Vertex, bool> visited; 
 	vector<Vertex> s_path;
 	priority_queue<pair<Vertex, int>, vector<pair<Vertex, int>>, compare> p_q; // initialize the min distance priority queue
+
+	// Set all vertice distances to essentially infinity and its previous vertex to "null"
 	for (Vertex v : g_.getVertices()){
 		dis[v] = INT_MAX;
 		prev[v] = "";
 	}
+
+	// Set distance of starting vertex to itself to be 0
 	dis[start] = 0;
 	p_q.push(make_pair(start, 0));
 	while(!p_q.empty()){
@@ -75,9 +85,13 @@ vector<Vertex> LandmarkPath::getShortestPath(Vertex start, Vertex target) {
 }
 
 void LandmarkPath::printPath(vector<Vertex> path) {
-	std::cout << "Layovers: " << path.size() - 2 << std::endl;
-	for (int i = path.size() - 1; i >= 0; i--) {
-		std::cout << path[i] << std::endl;
+	if (path.empty() || path.size() < 3) {
+		std::cout << "There is no path from the source airport through the landmark airport to the destination airport." << std::endl;
+	} else {
+		std::cout << "Layovers: " << path.size() - 2 << std::endl;
+		for (int i = path.size() - 1; i >= 0; i--) {
+			std::cout << path[i] << std::endl;
+		}
 	}
 }
 
@@ -136,4 +150,3 @@ long double LandmarkPath::distance(long double lat1, long double long1, long dou
 
 // This code is contributed 
 // by Aayush Chaturvedi 
-

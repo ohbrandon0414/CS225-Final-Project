@@ -1,5 +1,5 @@
 # Executable names:
-EXE = degree
+EXE = flights
 TEST = test
 
 # Add all object files needed for compiling:
