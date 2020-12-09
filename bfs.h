@@ -27,6 +27,7 @@ class BFS {
 
         /**
          * Runs a BFS traveral on the graph
+         * @param start vertex to start traversal at
          */
         void runBFS(Vertex start);
 
@@ -37,10 +38,12 @@ class BFS {
 
         /**
          * Save traversal path and edges to txt files
+         * @param pathfile name of file to save the bfs path to
+         * @param edgefile name of file to save edges to
          */
         void saveResult(string pathfile, string edgefile);
 
-
+        // global const variables for the different vertex/edge states
         const static string UNEXPLORED;
         const static string VISITED;
         const static string DISCOVERY;
