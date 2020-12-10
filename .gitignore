@@ -4,3 +4,5 @@ test_triangle_edges.txt
 test_triangle_path.txt
 test_small_edges.txt
 test_small_path.txt
+test_2cycle_path.txt
+test_2cycle_edges.txt

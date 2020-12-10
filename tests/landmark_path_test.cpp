@@ -4,11 +4,8 @@
 
 #include <iostream>
 
-TEST_CASE("sanity_check", "[valgrind][weight=1][landmarkpath]") {
-    REQUIRE(3==3);
-}
-
 TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
+    // small data files that contain basic data.
     degree d("tests/small_routedata.txt", "tests/small_airport_data.txt");
     d.readFromAirport();
 
@@ -24,7 +21,6 @@ TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
         REQUIRE(g.edgeExists("AAA", "BBB"));
     }
 
-
     SECTION("test getShortestPath") {
         std::vector<std::string> expected_result;
         expected_result.push_back("CCC");
@@ -33,7 +29,7 @@ TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
         REQUIRE(lp.getShortestPath("AAA", "CCC") == expected_result);
     }
 
-    SECTION("test landmarkpath test") {
+    SECTION("test landmarkpath test - correct") {
         std::vector<std::string> expected_result;
         expected_result.push_back("FFF");
         expected_result.push_back("EEE");
@@ -41,6 +37,23 @@ TEST_CASE("small file", "[valgrind][weight=1][landmarkpath]") {
         expected_result.push_back("BBB");
         expected_result.push_back("AAA");
         REQUIRE(lp.getResult("AAA", "CCC" , "FFF") == expected_result);
+    }
+    SECTION("Airport exists in the route data but does not exist in the airport file") {
+        REQUIRE(lp.getResult("AAA", "CCC", "KKK").empty());
+    }
+    SECTION("Airport does not exist in the route file") {
+        REQUIRE(lp.getResult("AAA", "CCC", "GGG").empty());
+    }
+    SECTION("No route exists") {
+        std::vector<std::string> expected_result;
+        expected_result.push_back("FFF");
+        REQUIRE(lp.getResult("HHH", "III" , "AAA").empty()) ;
+    }
+    SECTION("No landmark") {
+        std::vector<std::string> expected_result;
+        expected_result.push_back("BBB");
+        expected_result.push_back("AAA");
+        REQUIRE(lp.getResult("AAA", "BBB" , "BBB") == expected_result);
     }
 }
 

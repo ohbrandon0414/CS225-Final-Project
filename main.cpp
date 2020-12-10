@@ -1,35 +1,68 @@
 #include "degree.h"
 #include "bfs.h"
 #include "landmarkpath.h"
+#include "graph.h"
+#include "util.hpp"
 
-int main()
+#include <map>
+#include <vector>
+
+using std::map;
+using std::vector;
+
+namespace opts
 {
-    degree d("routedata.txt", "airports_full.txt");
-    BFS bfs("routedata.txt");
-    std::unordered_map<std::string, std::pair<double, double>> locations = d.getLocations();
-    LandmarkPath lp("routedata.txt", locations);
+    bool help = false;
+    bool map = false;
+    bool bfs = false;
+    bool lmp = false;
+}
 
-    while(1)
-    {  
-        std::cout<<"Type degree, bfs or landmark"<<'\n';
-        std::string input;
-        std::cin>>input;
-        if(input == "degree")
-        {
-            d.readFromData();
-            d.drawOnMap();
-            d.readFromAirport();
-            std::cout<<"Out.png created"<<'\n';
-        }
-        if(input == "bfs")
-        {
-            bfs.saveResult("path.txt", "edges.txt");
-            std::cout<<'\n';
-        }
-        if(input == "landmark")
-        {
-            lp.printPath(lp.getResult("BOS", "YRI", "PVG"));
-            std::cout<<'\n';
-        }
+int main(int argc, const char** argv) {
+    string source = "BOS";
+    string landmark = "CMI";
+    string dest = "PVG";
+
+    OptionsParser optsparse;
+    optsparse.addArg(source);
+    optsparse.addArg(landmark);
+    optsparse.addArg(dest);
+    optsparse.addOption("help", opts::help);
+    optsparse.addOption("h", opts::help);
+    optsparse.addOption("map", opts::map);
+    optsparse.addOption("m", opts::map);
+    optsparse.addOption("bfs", opts::bfs);
+    optsparse.addOption("b", opts::bfs);
+    optsparse.addOption("landmarkpath", opts::lmp);
+    optsparse.addOption("l", opts::lmp);
+    optsparse.parse(argc, argv);
+
+    if (opts::help) {
+        cout << "Usage: " << argv[0] << endl;
+        cout << "-m/--map: map functionality" << endl;
+        cout << "-b/--bfs: bfs traversal" << endl;
+        cout << "-l/--landmarkpath [source] [landmark] [destination]: landmark path between 3 airports" << endl;
     }
+
+    if (opts::map) {
+        degree d("routedata.txt", "airports.txt");
+        d.readFromData();
+        d.readFromAirport();
+        d.drawOnMap();
+    }
+
+    if (opts::bfs) {
+        BFS bfs("routedata.txt");
+        bfs.saveResult("path.txt", "edges.txt");
+    }
+
+    if (opts::lmp) {
+        degree d("routedata.txt", "airports.txt");
+        d.readFromAirport();
+        std::unordered_map<std::string, std::pair<double, double>> locations = d.getLocations();
+        LandmarkPath lp("routedata.txt", locations);
+        lp.getResult(source, landmark, dest);
+    }
+    
+    return 0;
 }
