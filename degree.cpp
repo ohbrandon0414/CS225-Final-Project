@@ -13,6 +13,14 @@ degree::degree(): _g(true, true)
     
 }
 
+   /* 
+ *   readFromData
+ *   DESCRIPTION: Reads in the routes data
+ *   INPUTS: None
+ *   OUTPUTS: None
+ *   RETURN VALUE: None
+ *   SIDE EFFECTS: sets up the vertex and edges for the airport route
+ */
 void degree::readFromData()
 {  
     std::ifstream file("routedata.txt");
@@ -65,7 +73,7 @@ void degree::readFromData()
     }    
 }
 
-     
+  
 
     void degree::drawOnMap()
     {
@@ -75,7 +83,14 @@ void degree::readFromData()
 
     }
 
-
+    /* 
+ *   readFromAirport
+ *   DESCRIPTION: Reads in airport data
+ *   INPUTS: None
+ *   OUTPUTS: None
+ *   RETURN VALUE: None
+ *   SIDE EFFECTS: Sets up the unordered map to be plotted onto the world map
+ */
     void degree::readFromAirport()
     {
         std::vector<std::string> data;
@@ -95,15 +110,8 @@ void degree::readFromData()
                     data.push_back(word);
                 }
 
-                // for(auto x: data)
-                // {
-                //     cout<< x << "\n";
-                // }
-
                 // get the 3 letter keyword for airport
                 std::string name = data[4];
-
-                cout << data[0] << endl;
 
                 //save lat and long data
                 double latitutde = std::stod(data[6]);
@@ -113,11 +121,6 @@ void degree::readFromData()
                 //insert into the unordered map
                 locations[name] = make_pair(latitutde, longitude);
             }
-        }
-        
-        for(auto x : locations)
-        {
-            cout << x.first << "\n";
         }
     }
 
