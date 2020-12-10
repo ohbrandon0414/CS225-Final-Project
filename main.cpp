@@ -45,7 +45,7 @@ int main(int argc, const char** argv) {
     }
 
     if (opts::map) {
-        degree d("routedata.txt", "airports_full.txt");
+        degree d("routedata.txt", "airports.txt");
         d.readFromData();
         d.readFromAirport();
         d.drawOnMap();
@@ -57,10 +57,10 @@ int main(int argc, const char** argv) {
     }
 
     if (opts::lmp) {
-        degree d("routedata.txt", "airports_full.txt");
+        degree d("routedata.txt", "airports.txt");
         d.readFromAirport();
         std::unordered_map<std::string, std::pair<double, double>> locations = d.getLocations();
-        LandmarkPath lp("tests/small_routedata.txt", locations);
+        LandmarkPath lp("routedata.txt", locations);
         lp.getResult(source, landmark, dest);
     }
     
