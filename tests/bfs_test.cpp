@@ -59,3 +59,22 @@ TEST_CASE("Small graph", "[bfs]") {
     compareFiles("tests/expected_small_test_path.txt", "test_small_path.txt");
     compareFiles("tests/expected_small_test_edges.txt", "test_small_edges.txt");
 }
+
+TEST_CASE("Graph with 2 cycles", "[bfs]") {
+    BFS bfs("tests/2cycle_test.txt");
+    bfs.saveResult("test_2cycle_path.txt", "test_2cycle_edges.txt");
+    string s;
+    int sTotal = 0;
+
+    ifstream in;
+    in.open("test_2cycle_path.txt");
+
+    while(!in.eof()) {
+        getline(in, s);
+        sTotal ++;	
+    }
+
+    REQUIRE(sTotal == 14);
+    compareFiles("tests/expected_2cycle_test_path.txt", "test_2cycle_path.txt");
+    compareFiles("tests/expected_2cycle_test_edges.txt", "test_2cycle_edges.txt");
+}
